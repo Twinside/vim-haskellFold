@@ -92,10 +92,14 @@ fun! HaskellFoldText() "{{{
     return retVal
 endfunction "}}}
 
+fun! s:setHaskellFolding() "{{{
+    setlocal foldexpr=HaskellFold(v:lnum)
+    setlocal foldtext=HaskellFoldText()
+    setlocal foldmethod=expr
+endfunction "}}}
+
 augroup HaskellFold
     au!
-    au BufNewFile,BufRead,BufCreate *.hs setlocal foldexpr=HaskellFold(v:lnum)
-    au BufNewFile,BufRead,BufCreate *.hs setlocal foldtext=HaskellFoldText()
-    au BufNewFile,BufRead,BufCreate *.hs setlocal foldmethod=expr
+    au FileType Haskell call s:setHaskellFolding()
 augroup END
 
