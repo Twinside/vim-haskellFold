@@ -5,8 +5,9 @@
 " Warning: Assume the presence of type signatures on top of your functions to
 "          work well.
 " Usage:   drop in ~/vimfiles/plugin or ~/.vim/plugin
-" Version:     1.1
-" Changelog: - 1.1 : Adding foldtext to bet more information.
+" Version:     1.2
+" Changelog: - 1.2 : Reacting to file type instead of file extension.
+"            - 1.1 : Adding foldtext to bet more information.
 "            - 1.0 : initial version
 " =============================================================================
 if exists("g:__HASKELLFOLD_VIM__")
