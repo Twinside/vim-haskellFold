@@ -101,6 +101,6 @@ endfunction "}}}
 
 augroup HaskellFold
     au!
-    au FileType Haskell call s:setHaskellFolding()
+    au FileType haskell call s:setHaskellFolding()
 augroup END
 
