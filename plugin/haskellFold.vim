@@ -48,7 +48,7 @@ fun! HaskellFold( lineNum ) "{{{
     if line =~ '^\s*$'
         let nextline = getline(a:lineNum + 1)
         if s:HaskellFoldMaster( nextline ) > 0 || s:HaskellSnipGlobal( nextline ) > 0
-            \ || nextline =~ "^--"
+            \ || nextline =~ "^--" || nextline =~ "^{-"
             return 0
         else
             return -1
