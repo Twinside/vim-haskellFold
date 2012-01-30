@@ -95,7 +95,6 @@ fun! HaskellFoldText() "{{{
             end
         else
             if line =~ multilineCommentBegin
-                echom 'Pwet'
                 let isMultiLine = 1
                 continue
             elseif began == 0 && !(line =~ commentOnlyLine)
