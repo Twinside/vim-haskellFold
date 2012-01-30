@@ -37,7 +37,7 @@ fun! HaskellFold( lineNum ) "{{{
     let line = getline( a:lineNum )
 
     " Beginning of comment
-    if line =~ '^\s*--' 
+    if line =~ '^\s*--' || line =~ '^\s*{-'
         return 2
     endif
 
@@ -64,25 +64,53 @@ endfunction "}}}
 " and merging lines without first non space element, to
 " catch the full type expression.
 fun! HaskellFoldText() "{{{
-	let i = v:foldstart
-	let retVal = ''
-	let began = 0
+    let i = v:foldstart
+    let retVal = ''
+    let began = 0
 
-	while i <= v:foldend
-        let line = getline(i)
-        if began == 0 && !(line =~ '^\s*--.*$')
-            let retVal = substitute(line, '\s\+--.*', ' ','')
-            let began = 1
-        elseif began != 0 && line =~ '^\s\+\S'
-            let retVal = retVal . substitute( substitute( line
-                                                      \ , '\s\+\(.*\)$'
-                                                      \ , ' \1', '' )
-                                          \ , '\s\+--.*', ' ','')
-        elseif began != 0
-            break
+    let commentOnlyLine = '^\s*--.*$'
+    let monoLineComment = '\s*--.*$'
+    let nonEmptyLine    = '^\s\+\S'
+    let emptyLine       = '^\s*$'
+    let multilineCommentBegin = '^\s*{-'
+    let multilineCommentEnd = '-}'
+
+    let isMultiLine = 0
+
+    let line = getline(i)
+    while i <= v:foldend
+
+        if isMultiLine
+            if line =~ multilineCommentEnd
+                let isMultiLine = 0
+                let line = substitute(line, '.*-}', '', '')
+
+                if line =~ emptyLine
+                    let i = i + 1
+                    let line = getline(i)
+                end
+            else
+                let i = i + 1
+                let line = getline(i)
+            end
+        else
+            if line =~ multilineCommentBegin
+                echom 'Pwet'
+                let isMultiLine = 1
+                continue
+            elseif began == 0 && !(line =~ commentOnlyLine)
+                let retVal = substitute(line, monoLineComment, ' ','')
+                let began = 1
+            elseif began != 0 && line =~ nonEmptyLine
+                let tempVal = substitute( line, '\s\+\(.*\)$', ' \1', '' )
+                let retVal = retVal . substitute(tempVal, '\s\+--.*', ' ','')
+            elseif began != 0
+                break
+            endif
+
+            let i = i + 1
+            let line = getline(i)
         endif
-
-		let i = i + 1
     endwhile
 
     if retVal == ''
