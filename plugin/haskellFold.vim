@@ -17,19 +17,19 @@ let g:__HASKELLFOLD_VIM__ = 1
 
 " Top level bigdefs
 fun! s:HaskellFoldMaster( line ) "{{{
-    return a:line =~ '^data\s'
-      \ || a:line =~ '^type\s'
-      \ || a:line =~ '^newdata\s'
-      \ || a:line =~ '^class\s'
-      \ || a:line =~ '^instance\s'
-      \ || a:line =~ '^[^:]\+\s*::'
+    return a:line =~# '^data\s'
+      \ || a:line =~# '^type\s'
+      \ || a:line =~# '^newdata\s'
+      \ || a:line =~# '^class\s'
+      \ || a:line =~# '^instance\s'
+      \ || a:line =~  '^[^:]\+\s*::'
 endfunction "}}}
 
 " Top Level one line shooters.
 fun! s:HaskellSnipGlobal(line) "{{{
-    return a:line =~ '^module'
-      \ || a:line =~ '^import'
-      \ || a:line =~ '^infix[lr]\s'
+    return a:line =~# '^module'
+      \ || a:line =~# '^import'
+      \ || a:line =~# '^infix[lr]\s'
 endfunction "}}}
 
 " The real folding function
