@@ -70,6 +70,7 @@ fun! haskellFold#HaskellFoldText() "{{{
     let multilineCommentBegin = '^\s*{-'
     let multilineCommentEnd = '-}'
 
+    let short = get(g:, 'haskellFold_ShortText', 0)
     let isMultiLine = 0
 
     let line = getline(i)
@@ -95,7 +96,7 @@ fun! haskellFold#HaskellFoldText() "{{{
             elseif began == 0 && !(line =~ commentOnlyLine)
                 let retVal = substitute(line, monoLineComment, ' ','')
                 let began = 1
-            elseif began != 0 && line =~ nonEmptyLine
+            elseif began != 0 && line =~ nonEmptyLine && !short
                 let tempVal = substitute( line, '\s\+\(.*\)$', ' \1', '' )
                 let retVal = retVal . substitute(tempVal, '\s\+--.*', ' ','')
             elseif began != 0

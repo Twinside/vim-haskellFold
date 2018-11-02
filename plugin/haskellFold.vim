@@ -9,4 +9,3 @@ fun! SetHaskellFolding() "{{{
     setlocal foldtext=haskellFold#HaskellFoldText()
     setlocal foldmethod=expr
 endfunction "}}}
-"
